@@ -150,3 +150,13 @@ def get_hourly_exits(df):
     df['EXITSn_hourly'].fillna(0, inplace=True)
 
     return df
+
+def time_to_hour(time):
+    '''
+        Given an input variable time that represents time in the format of:
+        "00:00:00" (hour:minutes:seconds), this function extracts the hour part from the input variable time
+        and returns it as an integer.
+    '''
+    hour = int(time[:2])
+
+    return hour
