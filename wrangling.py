@@ -40,3 +40,23 @@ def max_temp_aggregate_by_fog(filename):
 
     foggy_days = pandasql.sqldf(q.lower(), locals())
     return foggy_days
+
+def avg_weekend_temperature(filename):
+    '''
+        This function runs a SQL query on a dataframe of
+        weather data. The SQL query returns one column and
+        one row - the average meantempi on days that are a Saturday
+        or Sunday.
+    '''
+
+    weather_data = pd.read_csv(filename)
+
+    q = """
+        SELECT AVG(meantempi) as avg_temp
+        FROM weather_data
+        WHERE CAST(strftime('%w', date) AS integer) = 0 OR
+                CAST(strftime('%w', date) AS integer) = 6
+        """
+
+    mean_temp_weekends = pandasql.sqldf(q.lower(), locals())
+    return mean_temp_weekends
