@@ -1,6 +1,7 @@
 import pandas as pd
 import pandasql
 import csv
+import datetime
 
 def num_rainy_days(filename):
     '''
@@ -160,3 +161,17 @@ def time_to_hour(time):
     hour = int(time[:2])
 
     return hour
+
+def reformat_subway_dates(date):
+    '''
+        The dates in subway data are formattes in the format month-day-year.
+        The dates in weather underground data are formatted year-month-day.
+
+        This function takes as its input a date in the MTA Subway data format,
+        and returns a date in the weather underground format.
+    '''
+
+    date_formatted = (datetime.datetime.strptime(date, '%m-%d-%y')).strftime(
+                        '%Y-%m-%d')
+
+    return date_formatted
