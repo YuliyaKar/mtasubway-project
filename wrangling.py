@@ -93,3 +93,21 @@ def fix_turnstile_data(filenames):
 
         f_in.close()
         f_out.close()
+
+def create_master_turnstile_file(filenames, output_file):
+    '''
+        Takes the files in the list filenames, which all have the
+        columns 'C/A, UNIT, SCP, DATEn, TIMEn, DESCn, ENTRIESn, EXISTn', and
+        consolidates them into one file located at output_file.
+    '''
+
+    with open(output_file, 'w') as master_file:
+        master_file.write('C/A,UNIT,SCP,DATEn,TIMEn,DESCn,ENTRIESn,EXITSn\n')
+
+        for filename in filenames:
+            f = open(filename, 'r')
+            for line in f.readlines():
+                master_file.write(line)
+
+            f.close()
+            
