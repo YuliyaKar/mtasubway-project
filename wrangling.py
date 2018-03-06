@@ -136,3 +136,17 @@ def get_hourly_entries(df):
     df['ENTRIESn_hourly'].fillna(1, inplace=True)
 
     return df
+
+def get_hourly_exits(df):
+    '''
+        The data in the MTA Subway Turnstile data reports on the cumulative
+        number of entries and exits per row.
+        This function changes cumulative exit numbers to a count of
+        exits since the last reading. If there is any NaN, it is filled
+        with 0.
+    '''
+
+    df['EXITSn_hourly'] = df['EXITSn'] - df['EXITSn'].shift(1)
+    df['EXITSn_hourly'].fillna(0, inplace=True)
+
+    return df
