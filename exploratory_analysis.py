@@ -28,3 +28,12 @@ def load_data(turnstile_filename, weather_filename):
   weather = pd.read_csv(weather_filename)
 
   return turnstile, weather
+
+def merge_turnstile_weather(turn, weath):
+    """
+        Merge 2 dataframes to a single one on date.
+    """
+    weath = weath.rename(columns={'date': 'DATEn'})
+    data = pd.merge(turn, weath, on=['DATEn'], how='inner')
+
+    return data
