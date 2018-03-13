@@ -117,4 +117,24 @@ def compute_cost(features, values, theta):
 
     return cost
 
+def gradient_descent(features, values, theta, alpha, num_iterations, cost=True):
+    """
+        Perform gradient descent given a data set with an arbitrary
+        number of features.
+        Returns cost function history if specified.
+    """
+
+    m = len(values)
+    cost_history = []
+
+    for i in range(num_iterations):
+        theta -= alpha * np.dot((np.dot(features, theta) - values), features) / m
+        cost = compute_cost(features, values, theta)
+        cost_history.append(cost)
+
+    if cost == False:
+        return theta
+
+    return theta, pd.Series(cost_history)
+
 #----------------------
