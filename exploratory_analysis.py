@@ -145,4 +145,16 @@ def compute_r_squared(data, predictions):
 
     return r_squared
 
+def plot_cost_history(alpha, cost_history):
+    """ Plot the cost function history. """
+
+    cost_df = pd.DataFrame({'Cost_History': cost_history,
+                            'Iteration': range(len(cost_history))})
+
+    plot = plt.figure()
+    cost_df.plot(x='Iteration', y='Cost_History', label='alpha = ' + str(alpha))
+    plt.legend()
+
+    return plot
+
 #----------------------
