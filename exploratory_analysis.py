@@ -157,4 +157,47 @@ def plot_cost_history(alpha, cost_history):
 
     return plot
 
+def predict(data):
+    """
+        Choose relevant features and use linear regression model to
+        fit the data. Values of theta are computed iteratively using gradient
+        descent.
+    """
+
+    # Select features
+    features = data[['rain', 'precipi', 'HOUR', 'meantempi',
+                     'EXITSn_hourly']]
+
+    # Add UNIT to features using dummy variables
+    dummy_units = pd.get_dummies(data['UNIT'], prefix='unit_')
+    features = features.join(dummy_units)
+
+    # Values
+    values = data['ENTRIESn_hourly']
+    m = len(values)
+
+    features, mu, sigma = normalize_features(features)
+    features['ones'] = np.ones(m) # Add a column of 1s (y intercept)
+
+    # Convert features and values to numpy arrays
+    features_array = np.array(features)
+    values_array = np.array(values)
+
+    # Set values for alpha, number of iterations
+    alpha = 0.1
+    num_iterations = 75
+
+    # Initialize theta, perform gradient descent
+    theta_gradient_descent = np.zeros(len(features.columns))
+    theta_gradient_descent, cost_history = gradient_descent(features_array,
+                                                            values_array,
+                                                            theta_gradient_descent,
+                                                            alpha,
+                                                            num_iterations)
+
+    # Predict
+    predictions = np.dot(features_array, theta_gradient_descent)
+
+    return predictions, cost_history
+
 #----------------------
