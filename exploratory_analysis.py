@@ -1,4 +1,5 @@
 from wrangling import *
+import matplotlib.pyplot as plt
 
 def load_data(turnstile_filename, weather_filename):
   """
@@ -37,3 +38,24 @@ def merge_turnstile_weather(turn, weath):
     data = pd.merge(turn, weath, on=['DATEn'], how='inner')
 
     return data
+
+def entries_hist(data):
+    """
+        Plot the frequency of hourly entries depending on
+        whether it is rainy day or not.
+    """
+    fig = plt.figure()
+
+    rainy = data[data['rain'] == 1]['ENTRIESn_hourly']
+    nrainy = data[data['rain'] == 0]['ENTRIESn_hourly']
+
+    plt.hist(nrainy, bins=20, range=(0, 4000), label='No Rain', color='blue',
+             alpha=0.8, ec='black', ls='solid')
+    plt.hist(rainy, bins=20, range=(0, 4000), label='Rain', color='green',
+             alpha=0.8, ec='black', ls='solid')
+
+    plt.xlabel('Number of hourly entries')
+    plt.ylabel('Frequency')
+    plt.legend()
+
+    return fig
