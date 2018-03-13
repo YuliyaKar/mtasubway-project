@@ -1,6 +1,7 @@
 from wrangling import *
 import matplotlib.pyplot as plt
 from scipy import stats
+import numpy as np
 
 def load_data(turnstile_filename, weather_filename):
   """
@@ -104,3 +105,16 @@ def normalize_features(df):
 
     df_normalized = (df - mu) / sigma
     return df_normalized, mu, sigma
+
+def compute_cost(features, values, theta):
+    """
+        Compute the cost function given a set of features /
+        values, and the values of thetas.
+    """
+
+    m = len(values)
+    cost = np.square(np.dot(features, theta) - values).sum() / (2 * m)
+
+    return cost
+
+#----------------------
