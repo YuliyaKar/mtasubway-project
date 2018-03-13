@@ -134,7 +134,10 @@ def get_hourly_entries(df):
     '''
 
     df['ENTRIESn_hourly'] = df['ENTRIESn'] - df['ENTRIESn'].shift(1)
-    df['ENTRIESn_hourly'].fillna(1, inplace=True)
+    df['ENTRIESn_hourly'].fillna(0, inplace=True)
+
+    # Remove rows where values < 0.0
+    df = df[df['ENTRIESn_hourly'] >= 0.0]
 
     return df
 
