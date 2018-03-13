@@ -137,4 +137,12 @@ def gradient_descent(features, values, theta, alpha, num_iterations, cost=True):
 
     return theta, pd.Series(cost_history)
 
+def compute_r_squared(data, predictions):
+    """ Compute and return the coefficient of determination for the data. """
+
+    mean = data.mean()
+    r_squared = 1 - np.square(data - predictions).sum() / np.square(data - mean).sum()
+
+    return r_squared
+
 #----------------------
