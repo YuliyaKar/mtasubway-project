@@ -1,5 +1,6 @@
 from wrangling import *
 import matplotlib.pyplot as plt
+from scipy import stats
 
 def load_data(turnstile_filename, weather_filename):
   """
@@ -59,3 +60,47 @@ def entries_hist(data):
     plt.legend()
 
     return fig
+
+def mann_whitney_test_entries(data):
+    """
+        This function computes the mean number of entries when raining
+        and not, and compares two samples using Mann Whitneys test (because data
+        are not distributed normally).
+
+        Returns
+        ------
+        with_rain_mean: Mean number of hourly entries when raining.
+        without_rain_mean: Mean number of hourly entries when no rain.
+        U: The Mann-Whitney U-statistic.
+        p: p-value.
+    """
+
+    rainy = data[data['rain'] == 1]['ENTRIESn_hourly']
+    nrainy = data[data['rain'] == 0]['ENTRIESn_hourly']
+
+    with_rain_mean = rainy.mean()
+    without_rain_mean = nrainy.mean()
+
+    U, p = stats.mannwhitneyu(rainy, nrainy)
+
+    return with_rain_mean, without_rain_mean, U, p
+
+
+#-----------------
+# The following part contains Linear Regression implementation
+# with gradient decent for the learning purpose.
+
+def normalize_features(df):
+    """
+        Normalize features in the data set.
+    """
+    mu = df.mean()
+    sigma = df.std()
+
+    if (sigma == 0).any():
+        raise Exception("One or more features had the same value for all samples, and thus could " + \
+                         "not be normalized. Please do not include features with only a single value " + \
+                         "in your model.")
+
+    df_normalized = (df - mu) / sigma
+    return df_normalized, mu, sigma
