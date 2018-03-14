@@ -32,6 +32,29 @@ def load_data(turnstile_filename, weather_filename):
 
   return turnstile, weather
 
+def cut_outliers(data, filter_col, p):
+    """
+        Filter data from outliers points.
+
+        Parameters
+        ---------
+        data: DataFrame to process.
+        filter_col: column that contains outliers.
+        p: fraction of data to cut.
+
+        Return
+        -------
+        data_filtered: filtered DataFrame.
+    """
+
+    q1 = data[filter_col].quantile(p)
+    q2 = data[filter_col].quantile(1 - p)
+
+    data_filtered = data[data[filter_col] >= q1]
+    data_filtered = data_filtered[data_filtered[filter_col] <= q2]
+
+    return data_filtered
+
 def merge_turnstile_weather(turn, weath):
     """
         Merge 2 dataframes to a single one on date.
