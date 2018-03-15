@@ -2,6 +2,26 @@ import string
 import csv
 import pandas as pd
 
+#    This is the exercise file that reproduces the main principles of MapReduce
+#    programming: the idea is to use Subway Weather data set and count the number
+#    of riders depending on the weather conditions. For example, it returns
+#    the key-value pair "fog-rain: 1355" that indicates the average number of
+#    riders on those days when it was fog and rain.
+#
+#    Mapper creates intermediate dictionary that lists all values from data once.
+#    The dictionary is then sorted by key values to simpify further computations.
+#    Reducer reads this sorted dictionary and groups the entries by keys while
+#    counting values. Example:
+#
+#    {                                  {
+#    "fog-rain": 200.0,                  "fog-rain": 210.0,
+#    "fog-rain": 10.0,                   "nofog-rain": 19.0,
+#    "nofog-rain": 19.0,        --->     "nofog-norain": 607.0
+#    "nofog-norain": 534.0,              }
+#    "nofog-norain": 73.0
+#    }
+
+
 def mapper(fin_path, fout_path):
     """
         This mapper reads csv file of Subway-MTA dataset and
