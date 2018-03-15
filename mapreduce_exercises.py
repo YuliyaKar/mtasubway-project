@@ -74,3 +74,13 @@ def reducer(fin_path, fout_path):
 
     fin.close()
     fout.close()
+
+
+def sorter(fin_path, fout_path):
+    """
+        Given a csv dictionaty file, this function sorts it by keys
+        and writes the output to a file.
+    """
+    fin = pd.read_csv(fin_path, header = None)
+    fout = fin.sort_values(0)
+    fout.to_csv(fout_path, index=False, header=False)
