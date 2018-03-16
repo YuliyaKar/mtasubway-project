@@ -178,3 +178,10 @@ def reformat_subway_dates(date):
                         '%Y-%m-%d')
 
     return date_formatted
+
+def drop_null_columns(df):
+    ''' This function drops the columns where all entries are null. '''
+
+    cols = df.loc[:, df.isnull().all()].columns
+
+    return df.drop(cols, axis=1)
