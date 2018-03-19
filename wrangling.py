@@ -185,3 +185,10 @@ def drop_null_columns(df):
     cols = df.loc[:, df.isnull().all()].columns
 
     return df.drop(cols, axis=1)
+
+def drop_one_value_columns(df):
+    ''' This function drops the columns where all entries are identical. '''
+
+    cols = [col for col in df.columns if len(df[col].unique()) == 1]
+
+    return df.drop(cols, axis=1)
