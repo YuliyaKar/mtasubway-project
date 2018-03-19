@@ -192,3 +192,16 @@ def drop_one_value_columns(df):
     cols = [col for col in df.columns if len(df[col].unique()) == 1]
 
     return df.drop(cols, axis=1)
+
+def drop_wrong_entries_exits_rows(df):
+    '''
+        There exist meaningless values in 'ENTRIESn' and 'EXITSn' columns:
+        zeros or ones. Since in general these values must represent cumulative
+        counts of entries/exits, it is unlikely to have such small numbers in
+        this data set, comparing to the other values.
+        This function drops such rows of a DataFrame df.
+    '''
+    df_clean = df[df["ENTRIESn"] > 1.]
+    df_clean = df[df["EXITSn"] > 1.]
+
+    return df_clean
