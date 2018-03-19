@@ -22,6 +22,7 @@ def load_data(turnstile_filename, weather_filename):
   """
 
   turnstile = filter_by_regular(turnstile_filename)
+  turnstile = drop_wrong_entries_exits_rows(turnstile)
   turnstile = get_hourly_exits(turnstile)
   turnstile = get_hourly_entries(turnstile)
 
